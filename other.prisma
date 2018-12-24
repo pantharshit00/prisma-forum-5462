@@ -1,0 +1,37 @@
+type Collection {
+  id: ID! @unique
+  title: String!
+  description: String
+  liveFrom: DateTime!
+  liveTill: DateTime
+  autoCurationRules: [CollectionAutoCurationRule!]!
+    @relation(name: "CollectionAutoCurationRules", onDelete: CASCADE)
+  applyAllRules: Boolean! @default(value: "false")
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type CollectionAutoCurationRule {
+  id: ID! @unique
+  collection: Collection!
+    @relation(name: "CollectionAutoCurationRules", onDelete: SET_NULL)
+  matchThis: CollectionAutoCurationRuleMatch!
+  matchCondition: CollectionAutoCurationRuleCondition!
+  matchTo: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type CollectionAutoCurationRuleMatch {
+  id: ID! @unique
+  match: String! @unique # Tag, Category, etc.
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type CollectionAutoCurationRuleCondition {
+  id: ID! @unique
+  condition: String! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
